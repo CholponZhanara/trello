@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import Auth from './components/Auth'
+import { useSelector,useDispatch } from 'react-redux'
+import Todo from './components/Todo'
+import { AddCard } from './components/AddCard'
+import Modal from './components/modal'
+import { toggleActions } from './Store/toggle'
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const dispatch = useDispatch()
+	const showModal = useSelector(state=>state.toogle.showModal)
+	console.log(showModal);
+	const isAuth = useSelector((state) => state.auth.isAuthenticated)
+
+	const hideModal =() =>{
+		dispatch(toggleActions.closeModal())
+	}
+
+	return (
+
+		<div className='App'>
+            {showModal && <Modal onConfirm = {hideModal}/>}
+			{isAuth ? <Todo /> : <Auth />}
+			{/* <AddCard /> */}
+		</div>
+	)
 }
 
-export default App;
+export default App
